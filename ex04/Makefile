@@ -1,6 +1,6 @@
 CPP = c++
 
-CFLAGS  = -Wall -Wextra -Werror -std=c++98
+CFLAGS  = -Wall -Wextra -Werror -std=c++98 -g
 
 NAME = replace-file
 
