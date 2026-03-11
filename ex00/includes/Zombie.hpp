@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:31:52 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 21:48:21 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2026/03/11 08:05:46 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class Zombie
         Zombie(void);
         Zombie(std::string name);
         ~Zombie(void);
-        void set_name(std::string name);
+        void set_name(const std::string &name);
         void announce( void );
 
     private:
