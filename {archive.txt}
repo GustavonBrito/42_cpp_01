@@ -1,0 +1,739 @@
+find . -type f \( -iname '*.cpp' -o -iname '*.hpp' \) -print0 | xargs -0 cat -- > {archive.txt}
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    {archive.txt}                                      :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/03/06 13:29:32 by gustavo-lin       #+#    #+#              #
+#    Updated: 2026/03/19 04:14:55 by gustavo-lin      ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#include "iostream"
+
+int main(void)
+{
+    std::string brain = "HI THIS IS BRAIN";
+    std::string *stringPTR = &brain;
+    std::string &stringREF = brain;
+
+    std::cout << "Brain variable address: " << &brain << "\n";
+    std::cout << "Brain pointer: " << stringPTR << "\n";
+    std::cout << "Brain variable reference: " << &stringREF << "\n";
+    
+    std::cout << "Brain variable value: " << brain << "\n";
+    std::cout << "Brain pointer value: " << *stringPTR << "\n";
+    std::cout << "Brain reference value: " << stringREF << "\n";
+    
+    return 0;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   HumanA.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:54:03 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/08 21:20:01 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/HumanA.hpp"
+
+HumanA::~HumanA(void) { std::cout << this->_name << " deallocated\n"; };
+
+HumanA::HumanA(std::string name, Weapon &weapon) : _weapon(weapon) { this->_name = name;}
+
+void        HumanA::attack()
+{
+    std::cout << this->_name << " attacks with their " << this->_weapon.getType() << "\n";
+};/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Weapon.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:54:08 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 13:04:07 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Weapon.hpp"
+
+Weapon::Weapon(std::string type) : _type(type) {}
+
+Weapon::~Weapon(void) {}
+
+const std::string& Weapon::getType(void) const
+{
+    return this->_type;
+}
+
+void Weapon::setType(std::string weapon)
+{
+    this->_type = weapon;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   HumanB.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:54:05 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 13:03:23 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/HumanB.hpp"
+
+HumanB::~HumanB(void) { std::cout << this->_name << " deallocated\n"; };
+
+HumanB::HumanB(std::string name){this->_name = name;}
+
+void        HumanB::setWeapon(Weapon &weapon){this->_weapon = &weapon;};
+
+void        HumanB::attack()
+{
+    if (this->_weapon->getType() == "")
+    {
+        std::cout << "Human B does not have a weapon";    
+        return;
+    }
+    std::cout << this->_name << " attacks with their " << this->_weapon->getType() << "\n";
+};/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:51:05 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/08 20:56:39 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/Weapon.hpp"
+#include "includes/HumanA.hpp"
+#include "includes/HumanB.hpp"
+
+int main()
+{
+    {
+        Weapon club = Weapon("crude spiked club");
+        
+        HumanA bob("Bob", club);
+        bob.attack();
+        club.setType("some other type of club");
+        bob.attack();
+    }
+    {
+        Weapon club = Weapon("crude spiked club");
+        
+        HumanB jim("Jim");
+        jim.setWeapon(club);
+        jim.attack();
+        club.setType("some other type of club");
+        jim.attack();
+    }
+    return 0;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:53:59 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/08 21:07:50 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef HUMANB_HPP
+# define HUMANB_HPP
+
+#include <iostream>
+#include "Weapon.hpp"
+ 
+class HumanB
+{
+public:
+    HumanB(std::string name);
+    ~HumanB(void);
+    void        setWeapon(Weapon &weapon);
+    void        attack();
+
+private:
+    std::string _name;
+    Weapon      *_weapon;
+};
+ 
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   HumanA.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:53:57 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/09 12:11:02 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef HUMANA_HPP
+# define HUMANA_HPP
+
+#include <iostream>
+#include "Weapon.hpp"
+ 
+class HumanA
+{
+public:
+    HumanA(std::string name, Weapon &weapon);
+    ~HumanA(void);    
+    void        attack();
+
+private:
+    std::string _name;
+    Weapon      &_weapon;
+};
+
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Weapon.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 19:54:01 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/08 21:03:34 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef WEAPON_HPP
+# define WEAPON_HPP
+
+#include <iostream>
+ 
+class Weapon
+{
+public:
+    Weapon(std::string type);
+    ~Weapon(void);    
+    const std::string& getType(void) const;
+    void               setType(std::string weapon);
+
+private:
+    std::string _type;
+
+};
+ 
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   newZombie.cpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:52 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:53:08 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+Zombie* newZombie( std::string name )
+{
+    Zombie *zombie = new Zombie(name);
+
+    zombie->announce();
+    
+    return zombie;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:55 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/11 08:03:20 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+Zombie::Zombie(void) : _name("") {};
+
+Zombie::Zombie(std::string name) : _name(name) {};
+
+Zombie::~Zombie(void) {std::cout << "Zombie deallocated\n";};
+
+void Zombie::announce( void )
+{
+    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
+}
+
+void Zombie::set_name(const std::string &name)
+{
+    this->_name = name;
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   randomChump.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:51 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:53:01 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+void randomChump( std::string name )
+{
+    Zombie zombie;
+
+    zombie.set_name(name);
+
+    zombie.announce();
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:58 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:54:13 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/Zombie.hpp"
+
+int main(void)
+{
+    Zombie *zombie = newZombie("Gustavo");
+    
+    randomChump("Brito");
+    
+    delete zombie;
+    
+    return 0;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:31:52 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/11 08:05:46 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
+
+#include <iostream>
+
+class Zombie
+{
+    public:
+        Zombie(void);
+        Zombie(std::string name);
+        ~Zombie(void);
+        void set_name(const std::string &name);
+        void announce( void );
+
+    private:
+        std::string _name;
+};
+
+Zombie* newZombie( std::string name );
+void    randomChump( std::string name );
+
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   zombieHorde.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 18:05:02 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/07 19:19:13 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+#include <iostream>
+
+Zombie *zombieHorde( int N, std::string name )
+{
+    Zombie *brandNewZombie = new Zombie[N];
+    
+    for (int i = 0; i < N; i++)
+    {
+        brandNewZombie[i].setName(name);
+        brandNewZombie[i].announce();
+    }
+
+    return brandNewZombie;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 13:29:32 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/07 19:04:27 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+int main(void)
+{
+    int N = 10;
+         
+    Zombie *funkyZombie = zombieHorde(N, "FunkyZombie");
+   
+    delete []funkyZombie;
+    return 0;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 08:26:13 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 08:34:08 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+Zombie::Zombie(void){};
+Zombie::Zombie(std::string name) { this->_name = name; }
+Zombie::~Zombie( void ) { std::cout << this->_name << " deallocated\n"; };
+
+void Zombie::announce( void )
+{
+    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
+}
+
+void Zombie::setName(std::string name)
+{
+    this->_name = name;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 08:26:16 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 08:32:00 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
+
+#include <iostream>
+
+class Zombie{
+
+public:
+    
+    Zombie();
+    Zombie( std::string name );
+    ~Zombie(void);
+    void announce( void );
+    void setName(std::string name);
+
+private:
+    std::string _name;
+};
+
+Zombie* zombieHorde( int N, std::string name );
+
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   File.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/09 08:07:07 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 19:23:04 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/File.hpp"
+
+File::~File(void) { std::cout << "Object deallocated\n"; };
+
+File::File(std::string path)
+{
+    this->_path = path;
+}
+
+void File::setPath(const std::string &name) { _path = name; }
+const std::string& File::getPath() const { return _path; }
+
+bool    File::validate_file(std::string path)
+{
+    std::ifstream ifs(path.c_str());
+    if (!ifs.is_open())
+        return false;
+    if (ifs.peek() == std::ifstream::traits_type::eof())
+    {
+        ifs.close();
+        return false;
+    }
+    ifs.close();
+    return true;
+}
+
+static std::string  ft_replace(std::string line, std::string s1, std::string s2)
+{
+    std::string result;
+    std::size_t pos = 0;
+    std::size_t found;
+
+    while ((found = line.find(s1, pos)) != std::string::npos)
+    {
+        result += line.substr(pos, found - pos);
+        result += s2;
+        pos = found + s1.length();
+    }
+    result += line.substr(pos);
+    return result;
+}
+
+void    File::replace_instances(std::string s1, std::string s2)
+{
+    if (s1.empty())
+        return ;
+    std::ifstream ifs(this->getPath().c_str());
+    if (!ifs.is_open())
+        return ;
+
+    std::string outPath = this->getPath() + ".replace";
+    std::ofstream ofs(outPath.c_str());
+    if (!ofs.is_open())
+    {
+        ifs.close();
+        return ;
+    }
+
+    std::string line;
+    bool first = true;
+    while (std::getline(ifs, line))
+    {
+        if (!first)
+            ofs << "\n";
+        ofs << ft_replace(line, s1, s2);
+        first = false;
+    }
+    ifs.close();
+    ofs.close();
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/08 21:22:41 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 08:26:05 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/File.hpp"
+
+int main(int argc, char **argv)
+{
+    if (argc != 4)
+    {
+        std::cout << "Usage: ./replace-file <filename> <s1> <s2>";
+        return 1;
+    }
+    if (!File::validate_file(argv[1]))
+    {
+        std::cout << "Error: invalid file.";
+        return 1;
+    }
+
+    File file(argv[1]);
+
+    file.replace_instances(argv[2], argv[3]);
+
+    return 0;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   File.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/09 08:07:09 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 13:22:17 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FILE_HPP
+# define FILE_HPP
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+class File
+{
+    public:
+        File(std::string path);
+        ~File(void);
+        const std::string& getPath() const;
+        void setPath(const std::string &name);
+
+        static bool validate_file(std::string path);
+
+        void replace_instances(std::string s1, std::string s2);
+    
+    private:
+        std::string _path;
+
+};
+
+
+#endif
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Harl.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 19:35:46 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:21:02 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Harl.hpp"
+
+Harl::Harl(void){};
+Harl::~Harl(void){std::cout << "Object deallocated\n";};
+
+void Harl::_debug(void)
+{
+    std::cout << "Eu amo ter bacon extra para o meu hambúrguer 7XL-duplo-queijo-triplo-picles-ketchup-especial. Eu realmente amo!\n";
+}
+
+void Harl::_info(void)
+{
+    std::cout << "Eu não acredito que adicionar bacon extra custa mais dinheiro. Voces não colocaram bacon suﬁciente no meu hambúrguer! Se voces tivessem colocado, eu não estaria pedindo por mais!\n";
+}
+
+void Harl::_warning(void)
+{
+    std::cout << "Eu acho que mereço ter bacon extra de graça. Eu venho aqui há anos, enquanto voce começou a trabalhar aqui apenas no mes passado.\n";
+}
+
+void Harl::_error(void)
+{
+    std::cout << "Isto é inaceitável! Eu quero falar com o gerente agora.\n";
+}
+
+
+void Harl::complain(std::string level)
+{
+    void (Harl::*funcs[4])(void);
+    int i = 0; 
+
+    funcs[0] = &Harl::_debug;
+    funcs[1] = &Harl::_info;
+    funcs[2] = &Harl::_warning;
+    funcs[3] = &Harl::_error;
+
+    std::string levels[4] = {
+        "DEBUG",
+        "INFO",
+        "WARNING",
+        "ERROR"
+    };
+
+    while (1)
+    {
+        if (levels[i] == level)
+        {
+            (this->*funcs[i])();
+            return;
+        }
+        i++;
+    }
+    std::cout << "Unknown level: " << level << std::endl;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:00:49 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:02:54 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/Harl.hpp"
+
+int main (void)
+{
+    Harl harl;
+
+    harl.complain("WARNING");
+
+    return 0;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 19:35:44 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:13:42 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef HARL_HPP
+# define HARL_HPP
+
+#include <iostream>
+
+class   Harl
+{
+public:
+    Harl    ();
+    ~Harl(void);
+    void    complain( std::string level );
+    void    *funcs[4];
+
+private:
+    void    _debug( void );
+    void    _info( void );
+    void    _warning( void );
+    void    _error( void );
+};
+
+#endif
