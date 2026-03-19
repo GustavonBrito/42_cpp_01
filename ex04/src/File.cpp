@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 08:07:07 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 19:23:04 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2026/03/19 04:31:03 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void    File::replace_instances(std::string s1, std::string s2)
     std::ofstream ofs(outPath.c_str());
     if (!ofs.is_open())
     {
+        std::cout << "Error opening output file" << std::endl;
         ifs.close();
         return ;
     }

@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 19:35:46 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 21:21:02 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2026/03/19 04:33:21 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void Harl::complain(std::string level)
         "ERROR"
     };
 
-    while (1)
+    while (i < 4)
     {
         if (levels[i] == level)
         {

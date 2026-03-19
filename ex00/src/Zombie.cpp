@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:30:55 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/11 08:03:20 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2026/03/19 04:25:58 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ Zombie::Zombie(void) : _name("") {};
 
 Zombie::Zombie(std::string name) : _name(name) {};
 
-Zombie::~Zombie(void) {std::cout << "Zombie deallocated\n";};
+Zombie::~Zombie(void) {std::cout << this->_name << ": deallocated" << std::endl;};
 
 void Zombie::announce( void )
 {
-    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
+    std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 }
 
 void Zombie::set_name(const std::string &name)

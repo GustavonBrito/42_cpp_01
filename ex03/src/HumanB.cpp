@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 19:54:05 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 13:03:23 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2026/03/19 04:29:54 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void        HumanB::setWeapon(Weapon &weapon){this->_weapon = &weapon;};
 
 void        HumanB::attack()
 {
-    if (this->_weapon->getType() == "")
+    if (!this->_weapon)
     {
         std::cout << "Human B does not have a weapon";    
         return;

@@ -1,15 +1,250 @@
-find . -type f \( -iname '*.cpp' -o -iname '*.hpp' \) -print0 | xargs -0 cat -- > {archive.txt}
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    {archive.txt}                                      :+:      :+:    :+:    #
+#    code.txt                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/03/06 13:29:32 by gustavo-lin       #+#    #+#              #
-#    Updated: 2026/03/19 04:14:55 by gustavo-lin      ###   ########.fr        #
+#    Created: 2026/03/10 21:30:52 by gustavo-lin       #+#    #+#              #
+#    Updated: 2026/03/19 04:35:24 by gustavo-lin      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#include "../includes/Zombie.hpp"
+
+Zombie* newZombie( std::string name )
+{
+    Zombie *zombie = new Zombie(name);
+
+    zombie->announce();
+    
+    return zombie;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:55 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/11 08:03:20 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+Zombie::Zombie(void) : _name("") {};
+
+Zombie::Zombie(std::string name) : _name(name) {};
+
+Zombie::~Zombie(void) {std::cout << "Zombie deallocated\n";};
+
+void Zombie::announce( void )
+{
+    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
+}
+
+void Zombie::set_name(const std::string &name)
+{
+    this->_name = name;
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   randomChump.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:51 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:53:01 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+void randomChump( std::string name )
+{
+    Zombie zombie;
+
+    zombie.set_name(name);
+
+    zombie.announce();
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:30:58 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 21:54:13 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/Zombie.hpp"
+
+int main(void)
+{
+    Zombie *zombie = newZombie("Gustavo");
+    
+    randomChump("Brito");
+    
+    delete zombie;
+    
+    return 0;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 21:31:52 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/11 08:05:46 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
+
+#include <iostream>
+
+class Zombie
+{
+    public:
+        Zombie(void);
+        Zombie(std::string name);
+        ~Zombie(void);
+        void set_name(const std::string &name);
+        void announce( void );
+
+    private:
+        std::string _name;
+};
+
+Zombie* newZombie( std::string name );
+void    randomChump( std::string name );
+
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   zombieHorde.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 18:05:02 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/07 19:19:13 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+#include <iostream>
+
+Zombie *zombieHorde( int N, std::string name )
+{
+    Zombie *brandNewZombie = new Zombie[N];
+    
+    for (int i = 0; i < N; i++)
+    {
+        brandNewZombie[i].setName(name);
+        brandNewZombie[i].announce();
+    }
+
+    return brandNewZombie;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 13:29:32 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/07 19:04:27 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+int main(void)
+{
+    int N = 10;
+         
+    Zombie *funkyZombie = zombieHorde(N, "FunkyZombie");
+   
+    delete []funkyZombie;
+    return 0;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 08:26:13 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 08:34:08 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/Zombie.hpp"
+
+Zombie::Zombie(void){};
+Zombie::Zombie(std::string name) { this->_name = name; }
+Zombie::~Zombie( void ) { std::cout << this->_name << " deallocated\n"; };
+
+void Zombie::announce( void )
+{
+    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
+}
+
+void Zombie::setName(std::string name)
+{
+    this->_name = name;
+}/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 08:26:16 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/10 08:32:00 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
+
+#include <iostream>
+
+class Zombie{
+
+public:
+    
+    Zombie();
+    Zombie( std::string name );
+    ~Zombie(void);
+    void announce( void );
+    void setName(std::string name);
+
+private:
+    std::string _name;
+};
+
+Zombie* zombieHorde( int N, std::string name );
+
+#endif/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 13:29:32 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2026/03/07 20:57:26 by gustavo-lin      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "iostream"
 
@@ -230,243 +465,6 @@ private:
 
 };
  
-#endif/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   newZombie.cpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 21:30:52 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 21:53:08 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/Zombie.hpp"
-
-Zombie* newZombie( std::string name )
-{
-    Zombie *zombie = new Zombie(name);
-
-    zombie->announce();
-    
-    return zombie;
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Zombie.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 21:30:55 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/11 08:03:20 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/Zombie.hpp"
-
-Zombie::Zombie(void) : _name("") {};
-
-Zombie::Zombie(std::string name) : _name(name) {};
-
-Zombie::~Zombie(void) {std::cout << "Zombie deallocated\n";};
-
-void Zombie::announce( void )
-{
-    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
-}
-
-void Zombie::set_name(const std::string &name)
-{
-    this->_name = name;
-}
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   randomChump.cpp                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 21:30:51 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 21:53:01 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/Zombie.hpp"
-
-void randomChump( std::string name )
-{
-    Zombie zombie;
-
-    zombie.set_name(name);
-
-    zombie.announce();
-}/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 21:30:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 21:54:13 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "includes/Zombie.hpp"
-
-int main(void)
-{
-    Zombie *zombie = newZombie("Gustavo");
-    
-    randomChump("Brito");
-    
-    delete zombie;
-    
-    return 0;
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Zombie.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 21:31:52 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/11 08:05:46 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef ZOMBIE_HPP
-# define ZOMBIE_HPP
-
-#include <iostream>
-
-class Zombie
-{
-    public:
-        Zombie(void);
-        Zombie(std::string name);
-        ~Zombie(void);
-        void set_name(const std::string &name);
-        void announce( void );
-
-    private:
-        std::string _name;
-};
-
-Zombie* newZombie( std::string name );
-void    randomChump( std::string name );
-
-#endif/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   zombieHorde.cpp                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/07 18:05:02 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/07 19:19:13 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/Zombie.hpp"
-#include <iostream>
-
-Zombie *zombieHorde( int N, std::string name )
-{
-    Zombie *brandNewZombie = new Zombie[N];
-    
-    for (int i = 0; i < N; i++)
-    {
-        brandNewZombie[i].setName(name);
-        brandNewZombie[i].announce();
-    }
-
-    return brandNewZombie;
-}/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 13:29:32 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/07 19:04:27 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/Zombie.hpp"
-
-int main(void)
-{
-    int N = 10;
-         
-    Zombie *funkyZombie = zombieHorde(N, "FunkyZombie");
-   
-    delete []funkyZombie;
-    return 0;
-}/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Zombie.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 08:26:13 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 08:34:08 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/Zombie.hpp"
-
-Zombie::Zombie(void){};
-Zombie::Zombie(std::string name) { this->_name = name; }
-Zombie::~Zombie( void ) { std::cout << this->_name << " deallocated\n"; };
-
-void Zombie::announce( void )
-{
-    std::cout << this->_name << ":" << "BraiiiiiiinnnzzzZ...\n";
-}
-
-void Zombie::setName(std::string name)
-{
-    this->_name = name;
-}/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Zombie.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 08:26:16 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 08:32:00 by gustavo-lin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef ZOMBIE_HPP
-# define ZOMBIE_HPP
-
-#include <iostream>
-
-class Zombie{
-
-public:
-    
-    Zombie();
-    Zombie( std::string name );
-    ~Zombie(void);
-    void announce( void );
-    void setName(std::string name);
-
-private:
-    std::string _name;
-};
-
-Zombie* zombieHorde( int N, std::string name );
-
 #endif/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
