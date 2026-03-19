@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 19:35:44 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2026/03/10 21:13:42 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2026/03/19 04:37:38 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ public:
     Harl    ();
     ~Harl(void);
     void    complain( std::string level );
-    void    *funcs[4];
 
 private:
     void    _debug( void );
